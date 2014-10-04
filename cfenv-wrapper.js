@@ -1,5 +1,10 @@
 /* Copyright IBM Corp. 2014 All Rights Reserved                      */
 
+/* Module that provides a simple wrapper to cfenv. If running locally,
+ * it will try to load env.log from the working directory and 
+ * pass that info along to cfenv.
+ */
+
 var cfenv = require('cfenv');
 var properties = require ('node-properties-parser');
 
@@ -10,7 +15,7 @@ module.exports = (function() {
 	var envLog;
 
 	// Short utility function to read env.log file out of
-	// root directory
+	// base working directory
 	function getEnvLog() {
 		return properties.readSync(ENV_LOG_FILE);
 	}
@@ -82,11 +87,24 @@ module.exports = (function() {
 						return appEnv.getServiceCreds(spec);
 					},
 					
-					/* Unlike the others, this function isn't a wrapper
-					 * on cfenv. If we're runnning locally, first try to
-					 * get the value out of the parsed env.log info. 
-					 * Otherwise (or if not found), look at process.env.
+					/* Unlike the others, these functions don't wrapper
+					 * cfenv function. If we're runnning locally, first try to
+					 * get the value(s) from env.log data. Otherwise (or if 
+					 * not found), look at process.env.
 					 */
+					getEnvVars: function() {
+						var value;
+						if (envLog) {
+							value = envLog;
+						}
+						
+						if (!value) {
+							value = process.env;
+						}
+						
+						return value;
+					},
+					
 					getEnvVar: function(name) {
 						var value;
 						if (envLog) {
