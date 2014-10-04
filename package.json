@@ -1,0 +1,13 @@
+{
+  "name": "cfenv-wrapper",
+  "description": "Demo to show how to use cfenv locally and in the cloud",
+  "version": "0.0.1",
+  "dependencies": {
+    "cfenv": "^1.0.0",
+    "fs": "0.0.2",
+    "http": "0.0.0",
+    "node-properties-parser": "0.0.2"
+  },
+  "author": "Tony Erwin",
+  "license": "Apache License, Version 2.0"
+}

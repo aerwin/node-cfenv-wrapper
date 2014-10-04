@@ -1,0 +1,10 @@
+applications:
+- name: cfenv-wrapper
+
+  # using the random symbol will assign a unique hostname for this app
+  host: cfenv-wrapper-${random-word}
+  
+  command: node server.js
+
+  memory: 128M
+  
