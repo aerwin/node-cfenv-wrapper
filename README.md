@@ -6,20 +6,20 @@ I'm a fan of the [`cfenv`](https://github.com/cloudfoundry-community/node-cfenv)
 
 You can also supply your own JSON to `cfenv` when you initialize it. So, I made use of that feature in a simple wrapper. If you copy your app's `env.log` file from the cloud to your local file system, my wrapper will load/parse it at runtime. It then pulls out `VCAP_SERVICES` \ `VCAP_APPLICATION` from the data and passes it along to `cfenv`. After this initialization, you can use the same `cfenv` interface just as if you were running in the cloud.
 
-**NOTE:** Many cloud services can be accessed with no changes when running locally. In Bluemix, some of these include Cloudant, Pitney Bowes, and Twilio. In those cases, you can use `app.env` as is. However, there are services that don't yet allow connections from outside of Bluemix. For those services, you would need to modify `env.log` so that it uses info specific to installations of those services in your local environment.
+**NOTE:** Many cloud services can be accessed with no changes when running locally. In Bluemix, some of these include Cloudant, Pitney Bowes, and Twilio. In those cases, you can use `env.log` as is. However, there are services that don't yet allow connections from outside of Bluemix. For those services, you would need to modify `env.log` so that it uses info specific to installations of those services in your local environment.
 
 New Functions
 -------------
 My wrapper also adds two new functions, not in the original `cfenv` interface:
 
-* `getEnvVars` -- returns JSON data structure containing all environment variables. When running locally, it will returns the data from the `env.log`. When running in the cloud, it will return the standard `process.env` runtime variable.
+* `getEnvVars` -- returns JSON data structure containing all environment variables. When running locally, it returns the data from the `env.log`. When running in the cloud, it will return the standard `process.env` runtime variable.
 * `getEnvVar(name)` -- returns value of the environment variable with the given name. When running locally, it will try to pull the value from the `env.log` file data. If it can't find it, it falls back to the standard `process.env` runtime variable.
 
 These serve to give you a conistent interface for environment variable resolution in both environments.
 
 Get the Code
 ============
-In order to run either on Bluemix (or another Cloud Foundry environment) or locally, you need to get the code onto your machine. You have two main options:
+In order to run either on Bluemix (or another Cloud Foundry-based environment) or locally, you need to get the code onto your machine. You have two main options:
 
 * Use the zip archive for this repository:
 	1. Download [master.zip](https://github.com/aerwin/node-cfenv-wrapper/archive/master.zip)
@@ -68,7 +68,7 @@ You should then see a bunch of console output that eventually ends with somethin
      state     since                    cpu    memory          disk   
 	#0   running   2014-10-04 03:19:59 PM   0.0%   15.7M of 128M   25.1M of 1G 
 
-After the successful push, you should be able to run your app by pointing your browser at either:
+After the successful push, you should be able to run your app by pointing your browser at:
 
 	http://cfenv-wrapper-${random-word}.mybluemix.net/
 	
