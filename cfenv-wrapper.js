@@ -6,7 +6,7 @@
  */
 
 var cfenv = require('cfenv');
-var properties = require ('node-properties-parser');
+var properties = require ('properties-parser');
 
 module.exports = (function() {
 	var ENV_LOG_FILE = 'env.log';
@@ -17,7 +17,7 @@ module.exports = (function() {
 	// Short utility function to read env.log file out of
 	// base working directory
 	function getEnvLog() {
-		return properties.readSync(ENV_LOG_FILE);
+		return properties.read(ENV_LOG_FILE);
 	}
 
 	// Initialize based on whether running locally or in cloud.
