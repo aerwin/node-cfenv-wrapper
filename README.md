@@ -132,9 +132,15 @@ To see the contents of `env.log`, you can run the following `cf` command:
 
 Then, copy the output into a file named `env.log` to the same place on your local file system that you put the code. That is, as a peer to the `server.js` file.
 
+Install Dependencies
+--------------------
+Assuming you have already [downloaded and installed](http://nodejs.org/download/) Node.js (which also includes `npm`), then you can run the following command from the code directory (the one containing `server.js`) to retrieve dependencies:
+
+	npm install
+
 Execute `node` Command
 ----------------------
-Assuming you have already [downloaded and installed](http://nodejs.org/download/) Node.js, then you can run the following command from the code directory containing `server.js`:
+Once dependencies are installed, you can run the following command from the code directory:
 
 	node server.js
 
