@@ -15,7 +15,7 @@ My wrapper also adds two new functions, not in the original `cfenv` interface:
 * `getEnvVars` -- returns JSON data structure containing all environment variables. When running locally, it returns the data from the `env.log`. When running in the cloud, it will return the standard `process.env` runtime variable.
 * `getEnvVar(name)` -- returns value of the environment variable with the given name. When running locally, it will try to pull the value from the `env.log` file data. If it can't find it, it falls back to the standard `process.env` runtime variable.
 
-These serve to give you a conistent interface for environment variable resolution in both environments.
+These serve to give you a consistent interface for environment variable resolution in both environments.
 
 Run Live Demo
 =============
