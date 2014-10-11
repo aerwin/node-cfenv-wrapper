@@ -17,9 +17,15 @@ My wrapper also adds two new functions, not in the original `cfenv` interface:
 
 These serve to give you a conistent interface for environment variable resolution in both environments.
 
+Run Live Demo
+=============
+You can run a a working deployment of the code on Bluemix by using the link below:
+
+* [http://cfenv-wrapper.mybluemix.net/](http://cfenv-wrapper.mybluemix.net/)
+
 Get the Code
 ============
-In order to run either on Bluemix (or another Cloud Foundry-based environment) or locally, you need to get the code onto your machine. You have two main options:
+You need to get the code onto your machine in order to run your own copy on Bluemix, another Cloud Foundry-based environment, or locally. You have two main options:
 
 * Use the zip archive for this repository:
 	1. Download [master.zip](https://github.com/aerwin/node-cfenv-wrapper/archive/master.zip)
