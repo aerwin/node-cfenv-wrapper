@@ -9,7 +9,7 @@ I've written a simple wrapper (a local module called `cfenv-wrapper`) to make lo
 The local environment data can be in JSON or properties files meeting the following requirements:
 
 * `env.json` -- JSON file with `VCAP_SERVICES` info as retrieved by `cf env`. If `env.json` is present, the code will also load `env_custom.json`,  which should hold JSON representing your app's user-defined environment variables.
-* `env.log` file (deprecated) -- If there's no `env.json` file, the wrapper will load a local copy of your app's `env.log` file. This is provided for backwards compatability with earlier versions of `cfenv-wrapper`. After CF 182, CF stopped providing an `env.log` file for [security reasons](https://github.com/cloudfoundry/dea_ng/pull/147).
+* `env.log` file (deprecated) -- If there's no `env.json` file, the wrapper will load a local copy of your app's `env.log` file. This is provided for backwards compatibility with earlier versions of `cfenv-wrapper`. After CF 182, CF stopped providing an `env.log` file for [security reasons](https://github.com/cloudfoundry/dea_ng/pull/147).
 
 **NOTE:** Many cloud services can be accessed with no changes when running locally. In Bluemix, a partial list of these includes [Cloudant](https://ace.ng.bluemix.net/#/store/cloudOEPaneId=store&serviceOfferingGuid=14c83ad2-6fd4-439a-8c3a-d1a20f8a2381), [Pitney Bowes](https://ace.ng.bluemix.net/#/store/cloudOEPaneId=store&serviceOfferingGuid=44698cab-8ca0-414b-9b6d-a0f4ac1277da), and [Twilio](https://ace.ng.bluemix.net/#/store/cloudOEPaneId=store&serviceOfferingGuid=bc6f7b08-5589-4f43-86da-90b710bd81af). In those cases, you can use `env.json` and `env.log` with the exact data provided by CF. However, there are services that don't yet allow connections from outside of Bluemix. For those services, you would need to modify your local file so that it uses info specific to installations of those services in your local environment.
 
@@ -144,7 +144,7 @@ To see a JSON representation of your app's environment data, you can run the fol
 
 Then, copy the JSON (which starts right after the **System-Provided** header and ends just before the **User-Provided** header) into a file named `env.json`. This file should be in the same place on your local file system that you put the code. That is, as a peer to the `server.js` file.
 
-If you have user-defined environment variables, put them into a file name `env_custom.json`. For example, if `cf env` shows the following user-provided environment variables
+If you have user-defined environment variables, put them into a file name `env_custom.json`. For example, if `cf env` shows the following user-provided environment variables:
 
 	User-Provided:
 	CUSTOM_ENV_VAR1: Value 1

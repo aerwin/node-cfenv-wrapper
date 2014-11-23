@@ -1,8 +1,9 @@
 /* Copyright IBM Corp. 2014 All Rights Reserved                      */
 
 /* Module that provides a simple wrapper to cfenv. If running locally,
- * it will try to load env.log from the working directory and 
- * pass that info along to cfenv.
+ * it will try to load env.json/env_custom.json from the working directory and 
+ * pass that info along to cfenv. (If the JSON files are not present, it try to load  
+ * env.log.) 
  */
 
 var cfenv = require('cfenv');
