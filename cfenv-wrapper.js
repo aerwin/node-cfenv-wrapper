@@ -6,14 +6,27 @@
  */
 
 var cfenv = require('cfenv');
+var fs = require('fs-sync');
 var properties = require ('properties-parser');
 
 module.exports = (function() {
 	var ENV_LOG_FILE = 'env.log';
+	var ENV_JSON_FILE = 'env.json';
+	var ENV_CUSTOM_JSON_FILE = 'env_custom.json';
 	
 	var appEnv;
-	var envLog;
+	var envVars;
 
+	// Short utility function to read in JSON
+	// file.
+	function getJSONFile(filename) {
+		var parsedJSON;
+		if (fs.exists(filename)) {
+			parsedJSON = fs.readJSON(filename);
+		}
+		return parsedJSON;
+	}
+	
 	// Short utility function to read env.log file out of
 	// base working directory
 	function getEnvLog() {
@@ -24,21 +37,53 @@ module.exports = (function() {
 	function init() {
 		if (!process.env.VCAP_SERVICES) {
 			// running locally
-			try {
-				envLog = getEnvLog();
-
-				var options = {
-					// provide values for the VCAP_APPLICATION and VCAP_SERVICES environment
-					// variables based on parsing values in the env.log file
-					vcap: {
-						application: JSON.parse(envLog.VCAP_APPLICATION),
-						services: JSON.parse(envLog.VCAP_SERVICES)
-					},
-				};
-				appEnv = cfenv.getAppEnv(options);
-			} catch (err) {
-				// Some kind of problem reading the file or parsing the JSON
-				console.warn('Could not read configuration file: ' + err);
+			
+			// First try to load env.json
+			if (fs.exists(ENV_JSON_FILE)) {
+				try {
+					var envJson = getJSONFile(ENV_JSON_FILE);
+					
+					if (fs.exists(ENV_CUSTOM_JSON_FILE)) {
+						try {
+							envVars = getJSONFile(ENV_CUSTOM_JSON_FILE);
+						} catch (err) {
+							// Some kind of problem reading the file or parsing the JSON
+							console.error('Could not read configuration file ' + ENV_CUSTOM_JSON_FILE + ': ' + err);
+						}
+					}
+					
+					var envOptions = {
+						// provide values for the VCAP_SERVICES value in
+						// env.json
+						vcap: {
+							services: envJson.VCAP_SERVICES
+						}
+					};
+					appEnv = cfenv.getAppEnv(envOptions);
+				} catch (err) {
+					// Some kind of problem reading the file or parsing the JSON
+					console.error('Could not read configuration file ' + ENV_JSON_FILE + ': ' + err);
+				}
+			}
+			
+			if (!appEnv) {
+				// If no luck getting env.json, then try env.log
+				try {
+					envVars = getEnvLog();
+	
+					var options = {
+						// provide values for the VCAP_APPLICATION and VCAP_SERVICES environment
+						// variables based on parsing values in the env.log file
+						vcap: {
+							application: JSON.parse(envVars.VCAP_APPLICATION),
+							services: JSON.parse(envVars.VCAP_SERVICES)
+						}
+					};
+					appEnv = cfenv.getAppEnv(options);
+				} catch (err) {
+					// Some kind of problem reading the file or parsing the JSON
+					console.warn('Could not read configuration file: ' + err);
+				}
 			}
 		}
 		
@@ -94,8 +139,8 @@ module.exports = (function() {
 					 */
 					getEnvVars: function() {
 						var value;
-						if (envLog) {
-							value = envLog;
+						if (envVars) {
+							value = envVars;
 						}
 						
 						if (!value) {
@@ -107,8 +152,8 @@ module.exports = (function() {
 					
 					getEnvVar: function(name) {
 						var value;
-						if (envLog) {
-							value = envLog[name];
+						if (envVars) {
+							value = envVars[name];
 						}
 						
 						if (!value) {

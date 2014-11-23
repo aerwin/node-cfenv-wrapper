@@ -4,6 +4,7 @@
   "version": "0.0.1",
   "dependencies": {
     "cfenv": "^1.0.0",
+    "fs-sync": "^0.2.5",
     "http": "0.0.0",
     "properties-parser": "^0.2.3"
   },

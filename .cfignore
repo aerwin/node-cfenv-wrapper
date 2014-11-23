@@ -40,3 +40,5 @@ ssl
 .cfignore
 .jshintrc
 env.log
+env.json
+env_custom.json

@@ -34,3 +34,5 @@ ssl
 
 # Misc files
 env.log
+env.json
+env_custom.json
